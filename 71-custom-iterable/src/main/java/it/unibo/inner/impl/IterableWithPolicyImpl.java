@@ -4,17 +4,31 @@ import java.util.Iterator;
 import it.unibo.inner.api.IterableWithPolicy;
 import it.unibo.inner.api.Predicate;
 
+/**
+ * {@code IterableWithPolicyImpl}.
+ * 
+ * @param <T> an array of T elements.
+ * @param Predicate<T> if not present, returns always true.
+ */
 public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T>{
     private final T[] arrayList;
     private final int size;
     Predicate<T> filter;
 
+    /**
+     * @param arrayList
+     * @param filter
+     */
     public IterableWithPolicyImpl(final T[] arrayList, Predicate<T> filter){
         this.arrayList = arrayList;
         size = arrayList.length;
         this.filter = filter;
     }
 
+    /**
+     * @param arrayList
+     * @param filter always set as true
+     */
     public IterableWithPolicyImpl(final T[] arrayList){
         this(arrayList, new Predicate<>() {
             public boolean test(T elem) {
@@ -33,6 +47,10 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T>{
         return new ArrayIterator();
     }
 
+    /**
+     * {@code ArrayIterator}.
+     * Iterates the given {@code arrayList} with the given {@code filter}
+     */
     private class ArrayIterator implements Iterator<T>{
         private int count = 0;
 
