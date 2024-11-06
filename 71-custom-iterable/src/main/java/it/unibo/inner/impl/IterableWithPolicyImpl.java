@@ -7,15 +7,25 @@ import it.unibo.inner.api.Predicate;
 public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T>{
     private final T[] arrayList;
     private final int size;
+    Predicate<T> filter;
 
-    public IterableWithPolicyImpl(final T[] arrayList){
+    public IterableWithPolicyImpl(final T[] arrayList, Predicate<T> filter){
         this.arrayList = arrayList;
         size = arrayList.length;
+        this.filter = filter;
+    }
+
+    public IterableWithPolicyImpl(final T[] arrayList){
+        this(arrayList, new Predicate<>() {
+            public boolean test(T elem) {
+                return true;
+            }
+        });
     }
 
     @Override
     public void setIterationPolicy(Predicate<T> filter){
-       
+       this.filter = filter;
     }
 
     @Override
@@ -28,11 +38,17 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T>{
 
         @Override
         public boolean hasNext(){
-            return count < size && arrayList[count] != null;
+            while(count < size && arrayList[count] != null && !filter.test(arrayList[count])){
+                count++;
+            }
+            return count < size;
         }
 
         @Override
         public T next(){
+            if (!hasNext()) {
+                throw new java.util.NoSuchElementException();
+            }
             return arrayList[count++];
         }
     }

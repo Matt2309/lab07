@@ -17,5 +17,5 @@ dependencies {
 
 application {
     // Define the main class for the application
-    mainClass.set("it.unibo.inner.TestIterablePlain")
+    mainClass.set("it.unibo.inner.TestIterableWithPolicy")
 }
