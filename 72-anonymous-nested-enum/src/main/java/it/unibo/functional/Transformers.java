@@ -11,7 +11,7 @@ import java.util.Objects;
  * A special utility class with methods that transform collections using {@link Function}s provided as parameters.
  */
 public final class Transformers {
-
+    private static final String ITERABLE_CANNOT_NULL = "The base iterable cannot be null";
     private Transformers() { }
 
     /**
@@ -33,7 +33,7 @@ public final class Transformers {
         final Function<I, ? extends Collection<? extends O>> transformer
     ) {
         final var result = new ArrayList<O>();
-        for (final I input : Objects.requireNonNull(base, "The base iterable cannot be null")) {
+        for (final I input : Objects.requireNonNull(base, ITERABLE_CANNOT_NULL)) {
             result.addAll(transformer.call(input));
         }
         return result;
@@ -55,7 +55,7 @@ public final class Transformers {
      */
     public static <I, O> List<O> transform(final Iterable<I> base, final Function<I, O> transformer) {
         final var result = new ArrayList<O>();
-        for (final I input : Objects.requireNonNull(base, "The base iterable cannot be null")) {
+        for (final I input : Objects.requireNonNull(base, ITERABLE_CANNOT_NULL)) {
             result.add(transformer.call(input));
         }
         return result;
@@ -75,8 +75,8 @@ public final class Transformers {
      */
     public static <I> List<? extends I> flatten(final Iterable<? extends Collection<? extends I>> base) {
         final var result = new ArrayList<I>();
-        for (final Collection<? extends I> input : Objects.requireNonNull(base, "The base iterable cannot be null")) {
-            for(I el : input){
+        for (final Collection<? extends I> input : Objects.requireNonNull(base, ITERABLE_CANNOT_NULL)) {
+            for (final I el : input) {
                 result.add(el);
             }
         }
@@ -99,10 +99,9 @@ public final class Transformers {
     public static <I> List<I> select(final Iterable<I> base, final Function<I, Boolean> test) {
         final var result = new ArrayList<I>();
         for (final I input : Objects.requireNonNull(base, "The base iterable cannot be null")) {
-            if(test.call(input)){
+            if (test.call(input)) {
                 result.add(input);
             }
-            
         }
         return result;
     }
@@ -122,10 +121,9 @@ public final class Transformers {
     public static <I> List<I> reject(final Iterable<I> base, final Function<I, Boolean> test) {
         final var result = new ArrayList<I>();
         for (final I input : Objects.requireNonNull(base, "The base iterable cannot be null")) {
-            if(!test.call(input)){
+            if (!test.call(input)) {
                 result.add(input);
             }
-            
         }
         return result;
     }
