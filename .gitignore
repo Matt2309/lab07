@@ -1,0 +1,10 @@
+.bin/*
+.lock/*
+.properties/*
+.MF/*
+.bin
+.lock
+.properties
+.MF
+.class
+.class/*
